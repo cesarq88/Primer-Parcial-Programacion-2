@@ -8,7 +8,7 @@ class TestBook(unittest.TestCase):
 
     
     
-
+    #este metodo testea la inicializacion de la clase Book
     def test_book_initialization(self):
         libro = Book("Artificial", 1, "Santiago Bilinkis", 284)
 
@@ -17,17 +17,19 @@ class TestBook(unittest.TestCase):
         self.assertEqual(libro.author, "Santiago Bilinkis")
         self.assertEqual(libro.pages, 284) 
 
-    
+    #aca pru ebo que si tira  error si  el titulo no es string
     def test_book_init_invalido_title(self):
         with self.assertRaises(ValueError):
             Book(123, 1, "Santiago Bilinkis", 284)
+    #este metodo prueba si tira error si el item_id es negativo
     def test_book_init_invalido_item_id(self):
         with self.assertRaises(ValueError):
             Book("Artificial", -1, "Santiago Bilinkis", 284)
-
+    #este metodo es para probar si tira error si el autor esta vacio
     def test_book_init_invalido_author(self):
         with self.assertRaises(ValueError):
             Book("Artificial", 1, "", 284)
+
     def test_book_init_invalido_pages(self):
         with self.assertRaises(ValueError):
             Book("Artificial", 1, "Santiago Bilinkis", -10)
@@ -37,7 +39,8 @@ class TestBook(unittest.TestCase):
         impresion_por_pantalla = libro.checkout("Juan")
         self.assertEqual(impresion_por_pantalla, "Book: Artificial, checked out by : Juan")
 ####################################################################################
-
+     #aca empezamos con las pruebas de la clase Magazine
+     #exactament lo mismo que  la clase book, pero con los tributos de la clase magazine
     def test_Magazine_init(self):
         revista = Magazine(2033, "Nature", 2)
 
@@ -62,7 +65,7 @@ class TestBook(unittest.TestCase):
 
     
 
-
+    # Este es progrtam que nos paso por el aula , y se lo modifico para que funcione con las clases Book y Magazine
     def test_load_libreria_from_csv(self):
     # Crear un CSV temporal
         fname = 'temp_library.csv'
@@ -101,5 +104,7 @@ class TestBook(unittest.TestCase):
         self.assertCountEqual(dims, [(2,"Telenisima", 244), (4,"Formula 1", 1)])
 
         os.remove(fname)
+ # este bloque if es para correr las pruebas unitarias cuando se ejecuta este archivo directamente
+# si se importa este archivo desde otro modulo, este bloque no se ejecuta       
 if __name__ == '__main__':
     unittest.main()        

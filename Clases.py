@@ -1,7 +1,17 @@
 from abc import ABC, abstractmethod
 
+
+
+
+#esta es la clase abstracta LibraryItem que define la estructura básica de un item de la library
+#se defien los traibutos comunes y el metodo abstracto checkout
+#las clases Book y Magazine heredan de esta clase y deben implementar el metodo checkout
 class LibraryItem (ABC):
+    # se inicializan los atributos title y item_id
+    # title es el titulo del item y item_id es un identificador unico para cada item
     def __init__(self, title: str, item_id: int):
+
+        #  Estas son validaciones para el title y el item_id
         if not isinstance(title, str):
             raise ValueError("El titulo debe ser una cadena de caractreres")
         if not isinstance(item_id, int) or item_id <= 0:
@@ -9,16 +19,19 @@ class LibraryItem (ABC):
         
         self.title = title
         self.item_id = item_id
-
+     # Este es el metodo abastracto que herredan las clases Book y Magazine, el arroba es solo un adorno
     @abstractmethod
     def checkout(self, user: str )-> str:
         pass
+    
 
-
-
+#Esta clase reprensenta los libros de la library y hereda : el metodo checkout de la clase LibraryItem
 class Book(LibraryItem):
+    #el constructor qe recive los title, item_id, author y pages
+    # title es el titulo del libro, item_id es un identificador unico para cada libro   
     def __init__(self, title: str,item_id: int  ,author: str, pages: int    ):
-        super().__init__(title, item_id)   
+        super().__init__(title, item_id)
+        #aca  viene las validaciones para los los atrbutos title, item_id, author y pages   
         if not isinstance(title, str) or not title.strip():
             raise ValueError("El titulo debe ser una cadena de caracteres, no tiene que ser vacio ni nulo")
         if not isinstance(item_id, int) or item_id <= 0:
@@ -28,17 +41,21 @@ class Book(LibraryItem):
         if not isinstance(pages, int) or pages <= 0:
             raise ValueError("El número de páginas debe ser un entero positivo")
         
-        self.title = title
+        
         self.author = author
         self.pages = pages
-
+     #este metodo lo u nico que hace es recivier un usuario y devu elve un strin 
     def checkout(self, user: str) -> str:
          return f"Book: {self.title}, checked out by : {user}"
+    #  este metodo devuelve una representacion en string del objeto, por que me tiraba una direccion de memoria
     def __str__(self) -> str:
         return f"Book: {self.title}, Author: {self.author}, Pages: {self.pages}"
-
+# esta clase es de las revistas de la library y hereda : el metodo checkout de la clase LibraryItem
 class Magazine(LibraryItem):
+    #el constructor qe recive los issue_number, title, item_id
     def __init__(self, issue_number: int, title : str, item_id: int) :
+        #aca viene las validaciones para los los atrbutos issue_number, title y item_id 
+        
         if not isinstance(issue_number, int) or issue_number <= 0:
             raise ValueError("El número de edición debe ser un entero positivo")
         if not isinstance(title, str) or not title.strip():
@@ -50,8 +67,7 @@ class Magazine(LibraryItem):
     
         
         self.issue_number = issue_number
-        self.title = title
-        self.item_id = item_id
+       
 
     def checkout(self, user: str) -> str:
         return f"Magazine: {self.title}, Issue: {self.issue_number}, checked out by: {user}"
@@ -59,22 +75,13 @@ class Magazine(LibraryItem):
         return f"Magazine: {self.title}, Issue: {self.issue_number}, ID: {self.item_id}"
 
 def checkout_items(items: list[LibraryItem], user: str) -> list[str]:
-    """
-    Realiza el checkout de una lista de items de la library.
-    
-    :param items: Lista de objetos LibraryItem a ser procesados.
-    :param user: Nombre del usuario que realiza el checkout.
-    :return: Lista de mensajes de checkout para cada item.
-    """
+   #esta funcion la lista de itesm y llama al metordo cheout para cada uno
+   #le pasa un usuario y devuelve una lista con los mensajes de cdaa checkout
     return [item.checkout(user) for item in items]
 
 def count_items(items: list[LibraryItem]) -> dict:
-    """
-    Este cuenta la cantidad de libros y revistas en una lista de items de la library.
-    
-    :param items: Lista de objetos LibraryItem a ser procesados.
-    :return: Diccionario con la cantidad de libros y revistas.
-    """
+  #esta funcio lo hace es recirrrer y contar lobros y revistas estan en la lista de itesm 
+  # va sumando uno de cada tipo y deuelve un diccionario con el total de libros y revistas 
     total = {"books": 0, "magazines": 0}
     for item in items:
         if isinstance(item, Book):
@@ -84,19 +91,15 @@ def count_items(items: list[LibraryItem]) -> dict:
     return total
 
 def find_by_title(items: list[LibraryItem], title: str) -> list[LibraryItem]:
-    """
-    Busca items por título en una lista de items de la library.
-    
-    :param items: Lista de objetos LibraryItem a ser procesados.
-    :param title: Título a buscar.
-    :return: Lista de items que coinciden con el título.
-    """
+    #ACA buscmao todo  los items que tengan el titulo que le pasamos por parametro, y tiene que coincidir con el titulo del item
+    #si no hay ninguno devuelve una lista vacia
     return [item for item in items if item.title.lower() == title.lower()]
 
 
 
 
-
+#Este bloque del if  es solo para  probar el codigo, sus funciones y clases. Y solo corre cuando se ejecuta Clases.py directamente
+#si se importa Clases.py desde otro modulo, este bloque no se ejecuta
 if __name__ == "__main__":
     #hacemos una prueba del metodo checkout_items
     libros = [Book("Artificial", 1, "Santiago Bilinkis", 284)]
@@ -109,13 +112,13 @@ if __name__ == "__main__":
 
     print (count_items(items))
 
-libros_encontrados = find_by_title(items, "Artificial")
-for item in libros_encontrados:
-    print(item)
-
-
-revistas_encontradas = find_by_title(items, "Nature")
-for item in revistas_encontradas:
-    print(item)
+    libros_encontrados = find_by_title(items, "Artificial")
+    for item in libros_encontrados:
+        print(item)
+    
+    
+    revistas_encontradas = find_by_title(items, "Nature")
+    for item in revistas_encontradas:
+        print(item)
 
 

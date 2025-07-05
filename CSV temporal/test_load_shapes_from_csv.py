@@ -3,7 +3,7 @@ import csv
 from unittest import TestCase
 from Clases import Book, Magazine, LibraryItem
 
-
+# Este es progrtam que nos paso por el aula , y se lo modifico para que funcione con las clases Book y Magazine
 def test_load_libreria_from_csv(self):
     # Crear un CSV temporal
     fname = 'temp_library.csv'
@@ -24,7 +24,7 @@ def test_load_libreria_from_csv(self):
     # 1) Compruebo el número total de libreria
     self.assertEqual(len(libreria), 3)
 
-    # 2) Extraigo círculos y rectángulos
+    # 2) Extraigo revistas y libros
     libros     = [s for s in libreria if isinstance(s, Book)]
     revistas   = [s for s in libreria if isinstance(s, Magazine)]
 
